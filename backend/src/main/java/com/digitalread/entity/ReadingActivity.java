@@ -1,10 +1,12 @@
 package com.digitalread.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "reading_activities")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class ReadingActivity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

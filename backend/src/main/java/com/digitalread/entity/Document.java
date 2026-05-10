@@ -1,10 +1,12 @@
 package com.digitalread.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "documents")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Document {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,10 +36,10 @@ public class Document {
     @Column(nullable = false)
     private Long viewCount = 0L;
 
-    @Column(nullable = false)
+    @Column(name = "is_structured", nullable = false)
     private Boolean structured = false;
 
-    @Column(nullable = false)
+    @Column(name = "is_accessible", nullable = false)
     private Boolean accessible = false;
 
     @ManyToOne(fetch = FetchType.LAZY)

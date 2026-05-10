@@ -1,10 +1,12 @@
 package com.digitalread.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "accessibility_settings")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class AccessibilitySetting {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +21,7 @@ public class AccessibilitySetting {
     @Column(length = 200)
     private String description;
 
-    @Column(nullable = false)
+    @Column(name = "is_active", nullable = false)
     private Boolean active = true;
 
     @Column(nullable = false, updatable = false)

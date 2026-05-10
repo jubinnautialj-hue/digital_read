@@ -92,7 +92,7 @@ digital_read/
 
 ## 环境要求
 
-- **JDK**: 1.8 或更高版本
+- **JDK**: 17 或更高版本
 - **Node.js**: 14.x 或更高版本
 - **MySQL**: 8.0 或更高版本
 - **Maven**: 3.6.x 或更高版本（可选，项目已包含 Maven Wrapper）

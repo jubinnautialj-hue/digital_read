@@ -1,10 +1,12 @@
 package com.digitalread.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "user_settings")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class UserSettings {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
