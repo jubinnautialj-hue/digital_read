@@ -1,6 +1,6 @@
 package com.digitalread.entity;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -20,7 +20,7 @@ public class AccessibilitySetting {
     private String description;
 
     @Column(nullable = false)
-    private Boolean isActive = true;
+    private Boolean active = true;
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -70,12 +70,12 @@ public class AccessibilitySetting {
         this.description = description;
     }
 
-    public Boolean getIsActive() {
-        return isActive;
+    public Boolean getActive() {
+        return active;
     }
 
-    public void setIsActive(Boolean isActive) {
-        this.isActive = isActive;
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     public LocalDateTime getCreatedAt() {

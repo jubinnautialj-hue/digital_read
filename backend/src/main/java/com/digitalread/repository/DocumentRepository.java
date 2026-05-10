@@ -11,7 +11,7 @@ import java.util.List;
 public interface DocumentRepository extends JpaRepository<Document, Long> {
     List<Document> findByCreatedById(Long userId);
     List<Document> findByCategory(String category);
-    List<Document> findByIsAccessibleTrue();
+    List<Document> findByAccessibleTrue();
     
     @Query("SELECT d FROM Document d WHERE d.title LIKE %?1% OR d.description LIKE %?1%")
     List<Document> searchDocuments(String keyword);
@@ -19,6 +19,6 @@ public interface DocumentRepository extends JpaRepository<Document, Long> {
     @Query("SELECT COUNT(d) FROM Document d")
     long countAll();
     
-    @Query("SELECT COUNT(d) FROM Document d WHERE d.isAccessible = true")
+    @Query("SELECT COUNT(d) FROM Document d WHERE d.accessible = true")
     long countAccessible();
 }

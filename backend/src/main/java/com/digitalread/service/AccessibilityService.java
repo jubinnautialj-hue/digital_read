@@ -23,7 +23,7 @@ public class AccessibilityService {
     }
 
     public List<AccessibilitySetting> getActiveSettings() {
-        return settingRepository.findByIsActiveTrue();
+        return settingRepository.findByActiveTrue();
     }
 
     public Optional<AccessibilitySetting> getSettingByKey(String key) {
@@ -42,7 +42,7 @@ public class AccessibilityService {
             if (settingDetails.getSettingKey() != null) setting.setSettingKey(settingDetails.getSettingKey());
             if (settingDetails.getSettingValue() != null) setting.setSettingValue(settingDetails.getSettingValue());
             if (settingDetails.getDescription() != null) setting.setDescription(settingDetails.getDescription());
-            if (settingDetails.getIsActive() != null) setting.setIsActive(settingDetails.getIsActive());
+            if (settingDetails.getActive() != null) setting.setActive(settingDetails.getActive());
             return settingRepository.save(setting);
         }).orElseThrow(() -> new RuntimeException("设置不存在"));
     }
@@ -54,7 +54,7 @@ public class AccessibilityService {
     public Map<String, Object> performAccessibilityAudit() {
         Map<String, Object> audit = new HashMap<>();
         
-        List<AccessibilitySetting> activeSettings = settingRepository.findByIsActiveTrue();
+        List<AccessibilitySetting> activeSettings = settingRepository.findByActiveTrue();
         Map<String, String> settingsMap = new HashMap<>();
         for (AccessibilitySetting s : activeSettings) {
             settingsMap.put(s.getSettingKey(), s.getSettingValue());
@@ -82,7 +82,7 @@ public class AccessibilityService {
 
     public Map<String, String> getGlobalAccessibilitySettings() {
         Map<String, String> result = new HashMap<>();
-        for (AccessibilitySetting setting : settingRepository.findByIsActiveTrue()) {
+        for (AccessibilitySetting setting : settingRepository.findByActiveTrue()) {
             result.put(setting.getSettingKey(), setting.getSettingValue());
         }
         return result;

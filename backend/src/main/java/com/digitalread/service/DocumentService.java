@@ -21,7 +21,7 @@ public class DocumentService {
     }
 
     public List<Document> getAccessibleDocuments() {
-        return documentRepository.findByIsAccessibleTrue();
+        return documentRepository.findByAccessibleTrue();
     }
 
     public Optional<Document> getDocumentById(Long id) {
@@ -48,8 +48,8 @@ public class DocumentService {
             if (documentDetails.getCategory() != null) doc.setCategory(documentDetails.getCategory());
             if (documentDetails.getContent() != null) doc.setContent(documentDetails.getContent());
             if (documentDetails.getFileType() != null) doc.setFileType(documentDetails.getFileType());
-            if (documentDetails.getIsStructured() != null) doc.setIsStructured(documentDetails.getIsStructured());
-            if (documentDetails.getIsAccessible() != null) doc.setIsAccessible(documentDetails.getIsAccessible());
+            if (documentDetails.getStructured() != null) doc.setStructured(documentDetails.getStructured());
+            if (documentDetails.getAccessible() != null) doc.setAccessible(documentDetails.getAccessible());
             return documentRepository.save(doc);
         }).orElseThrow(() -> new RuntimeException("文档不存在"));
     }

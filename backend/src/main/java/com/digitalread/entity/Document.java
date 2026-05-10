@@ -1,6 +1,6 @@
 package com.digitalread.entity;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
@@ -35,10 +35,10 @@ public class Document {
     private Long viewCount = 0L;
 
     @Column(nullable = false)
-    private Boolean isStructured = false;
+    private Boolean structured = false;
 
     @Column(nullable = false)
-    private Boolean isAccessible = false;
+    private Boolean accessible = false;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by")
@@ -132,20 +132,20 @@ public class Document {
         this.viewCount = viewCount;
     }
 
-    public Boolean getIsStructured() {
-        return isStructured;
+    public Boolean getStructured() {
+        return structured;
     }
 
-    public void setIsStructured(Boolean isStructured) {
-        this.isStructured = isStructured;
+    public void setStructured(Boolean structured) {
+        this.structured = structured;
     }
 
-    public Boolean getIsAccessible() {
-        return isAccessible;
+    public Boolean getAccessible() {
+        return accessible;
     }
 
-    public void setIsAccessible(Boolean isAccessible) {
-        this.isAccessible = isAccessible;
+    public void setAccessible(Boolean accessible) {
+        this.accessible = accessible;
     }
 
     public User getCreatedBy() {

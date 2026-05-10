@@ -26,15 +26,15 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .cors().and()
-            .csrf().disable()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-            .authorizeRequests()
-            .antMatchers("/auth/**", "/api/auth/**", "/public/**", "/api/public/**", "/h2-console/**").permitAll()
-            .antMatchers("/admin/**", "/api/admin/**").hasRole("ADMIN")
-            .anyRequest().permitAll()
-            .and()
-            .headers().frameOptions().disable();
+            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+            .csrf(csrf -> csrf.disable())
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers("/auth/**", "/api/auth/**", "/public/**", "/api/public/**", "/h2-console/**").permitAll()
+                .requestMatchers("/admin/**", "/api/admin/**").hasRole("ADMIN")
+                .anyRequest().permitAll()
+            )
+            .headers(headers -> headers.frameOptions(frame -> frame.disable()));
         return http.build();
     }
 

@@ -10,6 +10,6 @@ import java.util.Optional;
 @Repository
 public interface AccessibilitySettingRepository extends JpaRepository<AccessibilitySetting, Long> {
     Optional<AccessibilitySetting> findBySettingKey(String settingKey);
-    List<AccessibilitySetting> findByIsActiveTrue();
+    List<AccessibilitySetting> findByActiveTrue();
     boolean existsBySettingKey(String settingKey);
 }
