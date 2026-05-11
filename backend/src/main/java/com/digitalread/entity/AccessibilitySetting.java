@@ -1,6 +1,7 @@
 package com.digitalread.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -23,6 +24,16 @@ public class AccessibilitySetting {
 
     @Column(name = "is_active", nullable = false)
     private Boolean active = true;
+
+    @JsonProperty("isActive")
+    public Boolean getActive() {
+        return active;
+    }
+
+    @JsonProperty("isActive")
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -70,14 +81,6 @@ public class AccessibilitySetting {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Boolean getActive() {
-        return active;
-    }
-
-    public void setActive(Boolean active) {
-        this.active = active;
     }
 
     public LocalDateTime getCreatedAt() {

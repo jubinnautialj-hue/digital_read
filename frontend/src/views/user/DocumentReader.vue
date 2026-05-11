@@ -406,6 +406,12 @@ export default {
         }
         
         await this.startActivity(docId)
+        
+        this.$nextTick(() => {
+          if (this.userSettings?.autoRead) {
+            this.startSpeech()
+          }
+        })
       } catch (error) {
         console.error('加载文档失败:', error)
         this.$message.error('加载文档失败')

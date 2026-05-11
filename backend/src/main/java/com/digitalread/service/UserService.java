@@ -129,4 +129,10 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(user);
     }
+
+    public User updateAvatar(Long userId, String avatarPath) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("用户不存在"));
+        user.setAvatar(avatarPath);
+        return userRepository.save(user);
+    }
 }

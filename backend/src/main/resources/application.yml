@@ -24,6 +24,9 @@ spring:
       max-file-size: 50MB
       max-request-size: 50MB
 
+file:
+  upload-dir: uploads
+
 jwt:
   secret: digital_read_2024_accessibility_secret_key_very_long_and_secure_abcdefghijklmnopqrstuvwxyz
   expiration: 86400000

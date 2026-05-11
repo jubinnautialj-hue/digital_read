@@ -24,8 +24,27 @@
     </div>
     <div class="user-content" id="main-content">
       <div class="user-header">
-        <div>
+        <div style="display: flex; align-items: center; gap: 15px;">
+          <div class="avatar-container" @click="triggerAvatarUpload" tabindex="0" @keydown.enter="triggerAvatarUpload" aria-label="点击上传头像" role="button" style="cursor: pointer;">
+            <el-avatar
+              :size="48"
+              :src="avatarUrl"
+              style="border: 2px solid #409EFF;"
+            >
+              <i class="el-icon-user"></i>
+            </el-avatar>
+            <div class="avatar-overlay">
+              <i class="el-icon-plus"></i>
+            </div>
+          </div>
           <span>欢迎，{{ currentUser?.username || '用户' }}</span>
+          <input
+            ref="avatarInput"
+            type="file"
+            accept="image/jpeg,image/jpg,image/png,image/gif,image/webp"
+            style="display: none;"
+            @change="handleAvatarChange"
+          />
         </div>
         <div>
           <el-button type="text" @click="toggleHighContrast" aria-label="切换高对比度">
@@ -47,6 +66,11 @@
 <script>
 export default {
   name: 'UserLayout',
+  data() {
+    return {
+      uploadingAvatar: false
+    }
+  },
   computed: {
     currentUser() {
       return this.$store.getters.currentUser
@@ -56,10 +80,17 @@ export default {
     },
     activeMenu() {
       return this.$route.path
+    },
+    avatarUrl() {
+      if (this.currentUser?.avatar) {
+        return '/api/files' + this.currentUser.avatar
+      }
+      return ''
     }
   },
   mounted() {
     this.$store.dispatch('loadUserSettings')
+    this.$store.dispatch('refreshUserInfo').catch(() => {})
     this.handleKeyboardShortcuts()
   },
   methods: {
@@ -88,6 +119,57 @@ export default {
         }
       })
     },
+    triggerAvatarUpload() {
+      if (!this.uploadingAvatar) {
+        this.$refs.avatarInput.click()
+      }
+    },
+    async handleAvatarChange(event) {
+      const file = event.target.files?.[0]
+      if (!file) return
+
+      const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp']
+      if (!validTypes.includes(file.type)) {
+        this.$message.error('请选择有效的图片文件（JPG、PNG、GIF、WEBP）')
+        this.clearFileInput()
+        return
+      }
+
+      if (file.size > 5 * 1024 * 1024) {
+        this.$message.error('图片大小不能超过5MB')
+        this.clearFileInput()
+        return
+      }
+
+      this.uploadingAvatar = true
+      const loading = this.$loading({
+        lock: true,
+        text: '上传中...',
+        spinner: 'el-icon-loading',
+        background: 'rgba(0, 0, 0, 0.7)'
+      })
+
+      try {
+        const formData = new FormData()
+        formData.append('file', file)
+
+        await this.$store.dispatch('updateUserAvatar', formData)
+        this.$message.success('头像上传成功')
+      } catch (error) {
+        console.error('头像上传失败:', error)
+        const errorMsg = error.response?.data?.message || error.message || '头像上传失败'
+        this.$message.error(errorMsg)
+      } finally {
+        loading.close()
+        this.uploadingAvatar = false
+        this.clearFileInput()
+      }
+    },
+    clearFileInput() {
+      if (this.$refs.avatarInput) {
+        this.$refs.avatarInput.value = ''
+      }
+    },
     async toggleHighContrast() {
       const currentValue = this.userSettings?.highContrast || false
       await this.$store.dispatch('updateUserSettings', {
@@ -102,3 +184,42 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.avatar-container {
+  position: relative;
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+.avatar-container:hover {
+  transform: scale(1.05);
+}
+
+.avatar-container:hover .avatar-overlay {
+  opacity: 1;
+}
+
+.avatar-container:focus {
+  outline: 2px solid #409EFF;
+  outline-offset: 2px;
+  border-radius: 50%;
+}
+
+.avatar-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  color: white;
+  font-size: 24px;
+}
+</style>

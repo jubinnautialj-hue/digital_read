@@ -24,6 +24,9 @@ public class User {
     @Column(length = 50)
     private String realName;
 
+    @Column(length = 255)
+    private String avatar;
+
     @Column(nullable = false, length = 20)
     private String role;
 
@@ -89,6 +92,14 @@ public class User {
 
     public void setRealName(String realName) {
         this.realName = realName;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public String getRole() {

@@ -1,6 +1,7 @@
 package com.digitalread.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -37,9 +38,11 @@ public class Document {
     private Long viewCount = 0L;
 
     @Column(name = "is_structured", nullable = false)
+    @JsonProperty("isStructured")
     private Boolean structured = false;
 
     @Column(name = "is_accessible", nullable = false)
+    @JsonProperty("isAccessible")
     private Boolean accessible = false;
 
     @ManyToOne(fetch = FetchType.LAZY)

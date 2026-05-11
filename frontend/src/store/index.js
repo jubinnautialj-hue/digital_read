@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { authApi, settingsApi } from '../api'
+import { authApi, settingsApi, userApi } from '../api'
 
 Vue.use(Vuex)
 
@@ -93,6 +93,31 @@ export default new Vuex.Store({
     },
     setCurrentActivity({ commit }, activity) {
       commit('SET_CURRENT_ACTIVITY', activity)
+    },
+    async updateUserAvatar({ commit, getters }, formData) {
+      if (getters.userId) {
+        const response = await userApi.uploadAvatar(getters.userId, formData)
+        const updatedUser = {
+          ...getters.currentUser,
+          avatar: response.data.data.avatar
+        }
+        commit('SET_USER', updatedUser)
+        return response
+      }
+    },
+    async refreshUserInfo({ commit, getters }) {
+      if (getters.userId) {
+        const response = await userApi.getById(getters.userId)
+        const user = response.data.data
+        const updatedUser = {
+          id: user.id,
+          username: user.username,
+          role: user.role,
+          avatar: user.avatar
+        }
+        commit('SET_USER', updatedUser)
+        return response
+      }
     },
     logout({ commit }) {
       commit('LOGOUT')

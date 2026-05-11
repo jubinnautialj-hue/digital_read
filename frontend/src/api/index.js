@@ -12,7 +12,10 @@ export const userApi = {
   create: (data) => request.post('/users', data),
   update: (id, data) => request.put(`/users/${id}`, data),
   delete: (id) => request.delete(`/users/${id}`),
-  changePassword: (id, data) => request.post(`/users/${id}/change-password`, data)
+  changePassword: (id, data) => request.post(`/users/${id}/change-password`, data),
+  uploadAvatar: (id, formData) => request.post(`/users/${id}/avatar`, formData, {
+    headers: { 'Content-Type': 'multipart/form-data' }
+  })
 }
 
 export const documentApi = {

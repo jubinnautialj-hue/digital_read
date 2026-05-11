@@ -20,11 +20,12 @@
     
     <el-row :gutter="20" v-else>
       <el-col :span="12" v-for="doc in documents" :key="doc.id" style="margin-bottom: 20px;">
-        <el-card
+        <div
           @click="openDocument(doc.id)"
-          @keydown.enter="openDocument(doc.id)"
+          @keydown.enter.prevent="openDocument(doc.id)"
+          @keydown.space.prevent="openDocument(doc.id)"
           tabindex="0"
-          style="cursor: pointer; height: 100%;"
+          class="document-card"
           role="button"
           :aria-label="`打开文档: ${doc.title}`"
         >
@@ -42,7 +43,7 @@
             </div>
             <el-tag v-if="doc.isAccessible" type="success" size="small">无障碍</el-tag>
           </div>
-        </el-card>
+        </div>
       </el-col>
     </el-row>
 
@@ -112,3 +113,26 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.document-card {
+  cursor: pointer;
+  height: 100%;
+  background: white;
+  border-radius: 4px;
+  border: 1px solid #ebeef5;
+  padding: 20px;
+  transition: all 0.3s ease;
+}
+
+.document-card:hover,
+.document-card:focus {
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  border-color: #409EFF;
+  outline: none;
+}
+
+.document-card:active {
+  transform: translateY(1px);
+}
+</style>
