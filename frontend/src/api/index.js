@@ -19,10 +19,16 @@ export const documentApi = {
   getAll: () => request.get('/documents'),
   getAccessible: () => request.get('/documents/accessible'),
   getById: (id) => request.get(`/documents/${id}`),
+  getStructured: (id) => request.get(`/documents/${id}/structured`),
   search: (keyword) => request.get('/documents/search', { params: { keyword } }),
   create: (data) => request.post('/documents', data),
   update: (id, data) => request.put(`/documents/${id}`, data),
   delete: (id) => request.delete(`/documents/${id}`),
+  upload: (formData) => request.post('/documents/upload', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' }
+  }),
+  parse: (data) => request.post('/documents/parse', data),
+  getSupportedFormats: () => request.get('/documents/supported-formats'),
   stats: () => request.get('/documents/stats')
 }
 
@@ -50,4 +56,13 @@ export const accessibilityApi = {
   deleteSetting: (id) => request.delete(`/accessibility/settings/${id}`),
   audit: () => request.get('/accessibility/audit'),
   globalSettings: () => request.get('/accessibility/global-settings')
+}
+
+export const ttsApi = {
+  getVoices: () => request.get('/tts/voices'),
+  synthesize: (data) => request.post('/tts/synthesize', data),
+  getAudio: (data) => request.post('/tts/audio', data, { responseType: 'blob' }),
+  getMarkers: (data) => request.post('/tts/markers', data),
+  chunkText: (data) => request.post('/tts/chunk', data),
+  getConfig: () => request.get('/tts/config')
 }

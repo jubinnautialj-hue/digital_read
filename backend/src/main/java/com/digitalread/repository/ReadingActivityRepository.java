@@ -13,7 +13,7 @@ public interface ReadingActivityRepository extends JpaRepository<ReadingActivity
     List<ReadingActivity> findByUserId(Long userId);
     List<ReadingActivity> findByDocumentId(Long documentId);
     
-    @Query("SELECT ra FROM ReadingActivity ra WHERE ra.user.id = ?1 AND ra.startTime >= ?2")
+    @Query("SELECT ra FROM ReadingActivity ra JOIN FETCH ra.document WHERE ra.user.id = ?1 AND ra.startTime >= ?2")
     List<ReadingActivity> findRecentActivities(Long userId, LocalDateTime since);
     
     @Query("SELECT COUNT(ra) FROM ReadingActivity ra WHERE ra.startTime >= ?1")
